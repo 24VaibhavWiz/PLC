@@ -5,7 +5,7 @@ int COMMENT=0;
 %}
 
 identifier [a-zA-Z][a-zA-Z0-9]*
-
+operator [+\-\/*]
 %%
 
 #.* {printf("\n%s is a preprocessor directive",yytext);}
@@ -29,6 +29,7 @@ goto {printf("\n %s is a keyword",yytext);}
 "/*" {COMMENT=1;}{printf("\n %s is a COMMENT",yytext);}
 "//" {COMMENT=1;}{printf("\n %s is a COMMENT",yytext);}
 {identifier}\( {if(!COMMENT)printf("\n FUNCTION -  %s",yytext);}
+{operator}([+\-\/*])? {if(!COMMENT) printf("\n %s is an arithmatic operator",yytext);}
 \{  {if(!COMMENT)printf("\n BLOCK BEGINS");}
 \}  {if(!COMMENT)printf("BLOCK ENDS ");}
 {identifier}(\[[0-9]*\])? {if(!COMMENT) printf("\n %s is an IDENTIFIER",yytext);}
